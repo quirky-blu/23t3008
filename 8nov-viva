@@ -1,0 +1,143 @@
+# name: akshat choudhary
+# roll: 23t3008
+# Create a student Management System  using any data structures where we can search , traverse , sort , update, delete, insert the record of students.
+
+
+class NewNode:
+    def __init__(self,rollno,name,marks=-1,next=None) -> None:
+        self.next=next
+        self.rollno=rollno
+        self.name=name
+        self.marks=marks
+def printll(h):
+    while h:
+        print(h.rollno,'\t',h.name,'\t',h.marks,)
+        h=h.next
+def MakeNode():
+    Name=input('enter students name - ')
+    roll=input('enter students roll - ')
+    marks=input('enter students marks - ')
+    if marks=="":
+        marks=-1
+    return NewNode(roll,Name,marks)
+print("enter values for nodes")
+head=NewNode(None,None,None)
+a=head
+while 1:
+    a.next=MakeNode()
+    a=a.next
+    print('node created')
+    c=input('do you want to quit? (y/n)')
+    if c=='y':
+        break
+head=head.next
+last=a
+while 1:
+    print('press 1 to print list')
+    print('press 2 to insert element in list')
+    print('press 3 to delete element')
+    print('press 4 to find students with missing marks')
+    print('Press 5 to sort the list')
+    print('Press 6 to exit')
+    try:
+        c=int(input(' enter choice '))
+    except:
+        c=10
+    match c:
+        case 1:
+            x=head
+            while x:
+                print(x.rollno,'\t',x.name,'\t',x.marks)
+                x=x.next
+        case 2:
+                print('press 1 insert at start')
+                print('press 2 insert at middle ')
+                print('press 3 insert at end ')
+                try:
+                    b=int(input(' '))
+                except:
+                    b=10
+                match(b):
+                    case 1:
+                        a=MakeNode()
+                        a.next=head
+                        head=a
+                    case 2:
+                        print('at what position do you want to insert?')
+                        pos=int(input())
+                        a=head
+                        while pos:
+                            a=a.next if a else None
+                            pos-=1
+                        if not a:
+                            print('value greater than list')
+                            break
+                        c=a.next
+                        b=MakeNode()
+                        a.next=b
+                        b.next=c
+
+                    case 3:
+                        last.next=MakeNode()
+                        last=last.next
+        case 3:
+                print('press 1 to delete at start')
+                print('press 2 delete at middle')
+                print('press 3 delete at end')
+                try:
+                    b=int(input())
+                except:
+                    b=10
+                match(b):
+                    case 1:
+                        head=head.next
+                    case 2:
+                        print('at what position do you want to delete?')
+                        pos=input()
+                        a=head
+                        while pos:
+                            a=a.next if a else None
+                            pos-=1
+                        if not a:
+                            print('value greater than list')
+                            break
+                        a.next=a.next.next
+                    case 3:
+                        a=head
+                        while a.next.next:
+                            a=a.next
+                        a.next=None
+        case 4:                 
+            print('students with missing marks')
+            x=head              
+            while x:            
+                if x.marks == -1:
+                    print(x.rollno,'\t',x.name)
+                x=x.next
+        case 5:
+            print('sort with respect to what? \n press 1 to sort wrt marks \n press 2 to sort wrt roll no.')
+            c=input('enter choice')
+            match c:
+                case '1':
+                    key='m'
+                case '2':
+                    key='r'
+            if not head or not head.next:
+                printll(head)
+            swapped = True
+            while swapped:
+                swapped = False
+                current = head
+                while current.next:
+                    next_node = current.next
+                    if (key == "m" and current.marks > next_node.marks) or \
+                    (key == "r" and int(current.rollno) > int(next_node.rollno)):
+                        current.rollno, next_node.rollno = next_node.rollno, current.rollno
+                        current.name, next_node.name = next_node.name, current.name
+                        current.marks, next_node.marks = next_node.marks, current.marks
+                        swapped = True
+                    current = current.next
+            printll(head)
+
+        case _:
+            print('invalid input')
